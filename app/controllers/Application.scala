@@ -6,11 +6,11 @@ import traits._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 object Application extends Controller with Instrumented {
-  private val requests = metrics.counter("requests")
-
+  private val requestTime = metrics.timer("requestTime")
   def index = Action {
-    requests += 1
-    Ok(views.html.index("Your new application is ready."))
+    requestTime.time(
+      Ok(views.html.index("Your new application is ready."))
+    )
   }
 
 }
